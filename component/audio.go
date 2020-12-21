@@ -58,7 +58,7 @@ func (p Audio) Build() string {
 
 func (p Audio) _KeyVal(k string, v interface{}) Audio {
 	p._NotEmpty(k, v)
-	switch v.(type) {
+	switch v := v.(type) {
 	case string:
 		p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"%s":"%s"`, k, v))
 	case int:

@@ -101,7 +101,7 @@ func (p Page) Build() string {
 
 func (p Page) _KeyVal(k string, v interface{}) Page {
 	p._NotEmpty(k, v)
-	switch v.(type) {
+	switch v := v.(type) {
 	case string:
 		p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"%s":"%s"`, k, v))
 	case int:
@@ -113,9 +113,9 @@ func (p Page) _KeyVal(k string, v interface{}) Page {
 }
 
 func (p Page) _NotEmpty(py, v interface{}) {
-	switch v.(type) {
+	switch v := v.(type) {
 	case string:
-		if strings.TrimSpace(v.(string)) == "" {
+		if strings.TrimSpace(v) == "" {
 			panic(fmt.Errorf("Property:%s,Cannot hold empty values", py))
 		}
 	}

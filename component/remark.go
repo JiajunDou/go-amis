@@ -59,7 +59,7 @@ func (r Remark) NoTypeBuild() string {
 
 func (r Remark) _KeyVal(k string, v interface{}) Remark {
 	r._NotEmpty(k, v)
-	switch v.(type) {
+	switch v := v.(type) {
 	case string:
 		r.JsonStr = append(r.JsonStr, fmt.Sprintf(`"%s":"%s"`, k, v))
 	case int:
@@ -71,9 +71,9 @@ func (r Remark) _KeyVal(k string, v interface{}) Remark {
 }
 
 func (r Remark) _NotEmpty(py, v interface{}) {
-	switch v.(type) {
+	switch v := v.(type) {
 	case string:
-		if strings.TrimSpace(v.(string)) == "" {
+		if strings.TrimSpace(v) == "" {
 			panic(fmt.Errorf("Property:%s,Cannot hold empty values", py))
 		}
 	}

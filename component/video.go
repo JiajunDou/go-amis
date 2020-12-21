@@ -47,6 +47,9 @@ func (p Video) Rates(s ...string) Video {
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"rates":[%s]`, ss))
 	return p
 }
+func (p Video) AspectRatio(s ...string) Video {
+	return p._KeyVal("aspectRatio", s)
+}
 
 func (p Video) Build() string {
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"type":"%s"`, "video"))
@@ -55,7 +58,7 @@ func (p Video) Build() string {
 
 func (p Video) _KeyVal(k string, v interface{}) Video {
 	p._NotEmpty(k, v)
-	switch v.(type) {
+	switch v := v.(type) {
 	case string:
 		p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"%s":"%s"`, k, v))
 	case int:
@@ -67,9 +70,9 @@ func (p Video) _KeyVal(k string, v interface{}) Video {
 }
 
 func (p Video) _NotEmpty(py, v interface{}) {
-	switch v.(type) {
+	switch v := v.(type) {
 	case string:
-		if strings.TrimSpace(v.(string)) == "" {
+		if strings.TrimSpace(v) == "" {
 			panic(fmt.Errorf("Property:%s,Cannot hold empty values", py))
 		}
 	}
