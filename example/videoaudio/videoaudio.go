@@ -62,8 +62,8 @@ func Data() string {
 		).
 		Body(
 			component.NewVideo().
-				Src("https://amis.bj.bcebos.com/amis/2019-12/1577157317579/trailer_hd.mp4").
-				Poster("https://internal-amis-res.cdn.bcebos.com/images/2019-12/1577157239810/da6376bf988c.png").
+				Src("https://media.w3.org/2010/05/sintel/trailer_hd.mp4").
+				Poster("https://video-react.js.org/assets/poster.png").
 				Build(),
 			component.NewAudio().
 				Src("https://amis.bj.bcebos.com/amis/2019-7/1562137295708/chicane-poppiholla-original-radio-edit%20(1).mp3").
