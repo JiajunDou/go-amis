@@ -11,6 +11,10 @@ var (
 	VideoControlsTime    = "time"
 	VideoControlsProcess = "process"
 	VideoControlsVolume  = "volume"
+
+	VideoAspectRaioAuto = "auto"
+	VideoAspectRaio4v3  = "4:3"
+	VideoAspectRaio16v9 = "16:9"
 )
 
 type Video struct {
@@ -31,6 +35,10 @@ func (p Video) IsLive(s bool) Video {
 
 func (p Video) Poster(s string) Video {
 	return p._KeyVal("poster", s)
+}
+
+func (p Video) SplitPoster(s bool) Video {
+	return p._KeyVal("splitPoster", s)
 }
 
 func (p Video) Muted(s bool) Video {

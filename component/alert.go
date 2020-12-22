@@ -54,9 +54,9 @@ func (p Alert) _KeyVal(k string, v interface{}) Alert {
 }
 
 func (p Alert) _NotEmpty(py, v interface{}) {
-	switch v.(type) {
+	switch v := v.(type) {
 	case string:
-		if strings.TrimSpace(v.(string)) == "" {
+		if strings.TrimSpace(v) == "" {
 			panic(fmt.Errorf("Property:%s,Cannot hold empty values", py))
 		}
 	}
