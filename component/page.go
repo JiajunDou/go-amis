@@ -11,14 +11,14 @@ type Page struct {
 
 func (p Page) Title(s ...string) Page {
 	ss := strings.Join(s, ",")
-	p._NotEmpty("title", s)
+	p._NotEmpty("title", ss)
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"title":[%s]`, ss))
 	return p
 }
 
 func (p Page) SubTitle(s ...string) Page {
 	ss := strings.Join(s, ",")
-	p._NotEmpty("subTitle", s)
+	p._NotEmpty("subTitle", ss)
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"subTitle":[%s]`, ss))
 	return p
 }
@@ -31,21 +31,21 @@ func (p Page) Remark(s string) Page {
 
 func (p Page) Aside(s ...string) Page {
 	ss := strings.Join(s, ",")
-	p._NotEmpty("aside", s)
+	p._NotEmpty("aside", ss)
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"aside":[%s]`, ss))
 	return p
 }
 
 func (p Page) Toolbar(s ...string) Page {
 	ss := strings.Join(s, ",")
-	p._NotEmpty("toolbar", s)
+	p._NotEmpty("toolbar", ss)
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"toolbar":[%s]`, ss))
 	return p
 }
 
 func (p Page) Body(s ...string) Page {
 	ss := strings.Join(s, ",")
-	p._NotEmpty("body", s)
+	p._NotEmpty("body", ss)
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"body":[%s]`, ss))
 	return p
 }

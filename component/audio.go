@@ -39,14 +39,14 @@ func (p Audio) AutoPlay(s bool) Audio {
 
 func (p Audio) Rates(s ...string) Audio {
 	ss := strings.Join(s, ",")
-	p._NotEmpty("rates", s)
+	p._NotEmpty("rates", ss)
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"rates":[%s]`, ss))
 	return p
 }
 
 func (p Audio) Controls(s ...string) Audio {
 	ss := strings.Join(s, ",")
-	p._NotEmpty("controls", s)
+	p._NotEmpty("controls", ss)
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"controls":[%s]`, ss))
 	return p
 }

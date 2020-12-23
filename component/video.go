@@ -51,7 +51,7 @@ func (p Video) AutoPlay(s bool) Video {
 
 func (p Video) Rates(s ...string) Video {
 	ss := strings.Join(s, ",")
-	p._NotEmpty("rates", s)
+	p._NotEmpty("rates", ss)
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"rates":[%s]`, ss))
 	return p
 }

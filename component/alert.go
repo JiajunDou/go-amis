@@ -26,7 +26,7 @@ func (p Alert) Level(s string) Alert {
 
 func (p Alert) Body(s ...string) Alert {
 	ss := strings.Join(s, ",")
-	p._NotEmpty("body", s)
+	p._NotEmpty("body", ss)
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"body":[%s]`, ss))
 	return p
 }
