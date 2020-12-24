@@ -9,6 +9,13 @@ type Table struct {
 	JsonStr []string
 }
 
+// External CRUD component
+func (p Table) CRUD(newCRUD string) Table {
+	p._NotEmpty("CRUD", newCRUD)
+	p.JsonStr = append(p.JsonStr, newCRUD)
+	return p
+}
+
 // Title of the table
 // Displayed as string text in the first row of the table
 // |title|
@@ -24,15 +31,15 @@ func (p Table) Source(s string) Table {
 
 func (p Table) Columns(newTableColumns ...string) Table {
 	ss := strings.Join(newTableColumns, ",")
-	p._NotEmpty("columns", newTableColumns)
+	p._NotEmpty("columns", ss)
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"columns":[%s]`, ss))
 	return p
 }
 
 // 悬浮行操作按钮组
-func (p Table) ItemActions(newAction ...string) Table {
-	ss := strings.Join(newAction, ",")
-	p._NotEmpty("itemActions", newAction)
+func (p Table) ItemActions(newButton ...string) Table {
+	ss := strings.Join(newButton, ",")
+	p._NotEmpty("itemActions", ss)
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"itemActions":[%s]`, ss))
 	return p
 }
@@ -112,6 +119,22 @@ func (p Table) CombineNum(combineNum int) Table {
 	return p._KeyVal("combineNum", combineNum)
 }
 
+// 顶部总结行
+func (p Table) PrefixRow(textTpl ...string) Table {
+	ss := strings.Join(textTpl, ",")
+	p._NotEmpty("prefixRow", ss)
+	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"prefixRow":[%s]`, ss))
+	return p
+}
+
+// 底部总结行
+func (p Table) AffixRow(textTpl ...string) Table {
+	ss := strings.Join(textTpl, ",")
+	p._NotEmpty("affixRow", ss)
+	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"affixRow":[%s]`, ss))
+	return p
+}
+
 // The CRUD table has all of Table functions
 func (p Table) Build() string {
 
@@ -146,136 +169,143 @@ func NewTable() Table {
 	return c
 }
 
-func NewTableCrud() Table {
+func NewCrudTable() Table {
 	var c Table
 	c.JsonStr = append(c.JsonStr, fmt.Sprintf(`"type":"%s"`, "crud"))
 	return c
 }
 
-type TableColums struct {
+type TableColumns struct {
 	JsonStr []string
 }
 
-func (p TableColums) Name(dataSourceKeyName string) TableColums {
+// External CRUDColumns component
+func (p TableColumns) CRUDColumns(newCRUDColumns string) TableColumns {
+	p._NotEmpty("CRUDColums", newCRUDColumns)
+	p.JsonStr = append(p.JsonStr, newCRUDColumns)
+	return p
+}
+
+func (p TableColumns) Name(dataSourceKeyName string) TableColumns {
 	return p._KeyVal("name", dataSourceKeyName)
 }
 
-func (p TableColums) Label(columnLabelText string) TableColums {
+func (p TableColumns) Label(columnLabelText string) TableColumns {
 	return p._KeyVal("label", columnLabelText)
 }
 
 // Tpl
-func (p TableColums) TypeTpl(tpl string) TableColums {
+func (p TableColumns) TypeTpl(tpl string) TableColumns {
 	p._NotEmpty("tpl", tpl)
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"type":"%s","tpl":"%s"`, "tpl", tpl))
 	return p
 }
 
 // Text
-func (p TableColums) TypeText() TableColums {
+func (p TableColumns) TypeText() TableColumns {
 	return p._KeyVal("type", "text")
 }
 
-func (p TableColums) TypeImage() TableColums {
+func (p TableColumns) TypeImage() TableColumns {
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"type":"%s"`, "image"))
 	return p
 }
 
-func (p TableColums) TypeDate() TableColums {
+func (p TableColumns) TypeDate() TableColumns {
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"type":"%s"`, "date"))
 	return p
 }
 
-func (p TableColums) TypeProgress() TableColums {
+func (p TableColumns) TypeProgress() TableColumns {
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"type":"%s"`, "progress"))
 	return p
 }
 
-func (p TableColums) TypeStatus() TableColums {
+func (p TableColumns) TypeStatus() TableColumns {
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"type":"%s"`, "status"))
 	return p
 }
 
-func (p TableColums) TypeSwitch() TableColums {
+func (p TableColumns) TypeSwitch() TableColumns {
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"type":"%s"`, "switch"))
 	return p
 }
 
-func (p TableColums) TypeColor() TableColums {
+func (p TableColumns) TypeColor() TableColumns {
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"type":"%s"`, "color"))
 	return p
 }
 
-func (p TableColums) CustomTypeImage(newImage string) TableColums {
+func (p TableColumns) CustomTypeImage(newImage string) TableColumns {
 	p._NotEmpty("image", newImage)
 	p.JsonStr = append(p.JsonStr, newImage)
 	return p
 }
 
-func (p TableColums) CustomTypeDate(newDate string) TableColums {
+func (p TableColumns) CustomTypeDate(newDate string) TableColumns {
 	p._NotEmpty("date", newDate)
 	p.JsonStr = append(p.JsonStr, newDate)
 	return p
 }
 
-func (p TableColums) CustomTypeProgress(newProgress string) TableColums {
+func (p TableColumns) CustomTypeProgress(newProgress string) TableColumns {
 	p._NotEmpty("progress", newProgress)
 	p.JsonStr = append(p.JsonStr, newProgress)
 	return p
 }
 
-func (p TableColums) CustomTypeStatus(newStatus string) TableColums {
+func (p TableColumns) CustomTypeStatus(newStatus string) TableColumns {
 	p._NotEmpty("status", newStatus)
 	p.JsonStr = append(p.JsonStr, newStatus)
 	return p
 }
 
-func (p TableColums) CustomTypeSwitch(newSwitch string) TableColums {
+func (p TableColumns) CustomTypeSwitch(newSwitch string) TableColumns {
 	p._NotEmpty("switch", newSwitch)
 	p.JsonStr = append(p.JsonStr, newSwitch)
 	return p
 }
 
-func (p TableColums) CustomTypeLink(newLink string) TableColums {
+func (p TableColumns) CustomTypeLink(newLink string) TableColumns {
 	p._NotEmpty("link", newLink)
 	p.JsonStr = append(p.JsonStr, newLink)
 	return p
 }
 
-func (p TableColums) CustomTypeColor(newColor string) TableColums {
+func (p TableColumns) CustomTypeColor(newColor string) TableColumns {
 	p._NotEmpty("color", newColor)
 	p.JsonStr = append(p.JsonStr, newColor)
 	return p
 }
 
 // 列宽像素
-func (p TableColums) WidthInPixel(pixel int) TableColums {
+func (p TableColumns) WidthInPixel(pixel int) TableColumns {
 	return p._KeyVal("width", pixel)
 }
 
 // 列宽百分比值
-func (p TableColums) WidthInPercentage(percentage string) TableColums {
+func (p TableColumns) WidthInPercentage(percentage string) TableColumns {
 	return p._KeyVal("width", percentage)
 }
 
 // 固定列宽
 // TODO 在新的表格演示中演示
 var (
-	TableColumsFixedLeft  = "left"
-	TableColumsFixedRight = "right"
+	TableColumnsFixedLeft  = "left"
+	TableColumnsFixedRight = "right"
 )
 
-func (p TableColums) Fixed(fixedThisColumnAtLeftOrRight string) TableColums {
+func (p TableColumns) Fixed(fixedThisColumnAtLeftOrRight string) TableColumns {
 	return p._KeyVal("fixed", fixedThisColumnAtLeftOrRight)
 }
 
 // 复制该列的值到剪贴板
-func (p TableColums) Copyable(isCopyThisColumnValueToClipboard bool) TableColums {
+func (p TableColumns) Copyable(isCopyThisColumnValueToClipboard bool) TableColumns {
 	return p._KeyVal("copyable", isCopyThisColumnValueToClipboard)
 }
 
 // 复制该列的值到剪贴板,自定义复制的提示语
-func (p TableColums) CopyableWithContent(copyableWithContent string) TableColums {
+func (p TableColumns) CopyableWithContent(copyableWithContent string) TableColumns {
 	p._NotEmpty("copyableWithContent", copyableWithContent)
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"copyable":{"content":"%s"}`, copyableWithContent))
 	return p
@@ -292,7 +322,7 @@ func (p TableColums) CopyableWithContent(copyableWithContent string) TableColums
 // showIcon 是否显示图标。默认会有个放大形状的图标出现在列里面。如果配置成 false，则触发事件出现在列上就会触发弹出。
 // title 弹出框的标题。
 // body 弹出框的内容。
-func (p TableColums) PopOverTips(defaultPopOverTips string) TableColums {
+func (p TableColumns) PopOverTips(defaultPopOverTips string) TableColumns {
 	p._NotEmpty("defaultPopOverTips", defaultPopOverTips)
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"popover":{"trigger": "hover","position": "left-top","showIcon": false,"body": {"type": "tpl","tpl": "%s"}}`, defaultPopOverTips))
 	return p
@@ -303,30 +333,35 @@ func (p TableColums) PopOverTips(defaultPopOverTips string) TableColums {
 // 所有列label配置空字符串，不显示表头
 // 配置combineNum，合并单元格，实现左侧表头的形式
 // 列上配置"isHead": true，调整样式
-func (p TableColums) IsHead(isHead bool) TableColums {
+func (p TableColumns) IsHead(isHead bool) TableColumns {
 	return p._KeyVal("isHead", isHead)
 }
 
 // 列太多时，内容没办法全部显示完，可以让部分信息在底部显示，可以让用户展开查看详情。配置很简单，只需要开启 footable 属性，同时将想在底部展示的列加个 breakpoint 属性为 * 即可。
-func (p TableColums) Breakpoint() TableColums {
+func (p TableColumns) Breakpoint() TableColumns {
 	return p._KeyVal("breakpoint", "*")
 }
 
 // 超级表头意思是，表头还可以再一次进行分组。额外添加个 groupName 属性即可。
-func (p TableColums) GroupName(groupName string) TableColums {
+func (p TableColumns) GroupName(groupName string) TableColumns {
 	return p._KeyVal("groupName", groupName)
 }
 
 // 是否显示该列
-func (p TableColums) Toggled(isShowThisColumn bool) TableColums {
+func (p TableColumns) Toggled(isShowThisColumn bool) TableColumns {
 	return p._KeyVal("toggled", isShowThisColumn)
 }
 
-func (p TableColums) Build() string {
+// 可以配置 colSpan 来设置一列所合并的列数,这个是配合总结行用的。
+func (p TableColumns) ColSpan(colSpan string) TableColumns {
+	return p._KeyVal("colSpan", colSpan)
+}
+
+func (p TableColumns) Build() string {
 	return "{" + strings.Join(p.JsonStr, ",") + "}"
 }
 
-func (p TableColums) _KeyVal(k string, v interface{}) TableColums {
+func (p TableColumns) _KeyVal(k string, v interface{}) TableColumns {
 	p._NotEmpty(k, v)
 	switch v := v.(type) {
 	case string:
@@ -339,7 +374,7 @@ func (p TableColums) _KeyVal(k string, v interface{}) TableColums {
 	return p
 }
 
-func (p TableColums) _NotEmpty(py, v interface{}) {
+func (p TableColumns) _NotEmpty(py, v interface{}) {
 	switch v := v.(type) {
 	case string:
 		if strings.TrimSpace(v) == "" {
@@ -348,7 +383,7 @@ func (p TableColums) _NotEmpty(py, v interface{}) {
 	}
 }
 
-func NewTableColumns() TableColums {
-	var c TableColums
+func NewTableColumns() TableColumns {
+	var c TableColumns
 	return c
 }
