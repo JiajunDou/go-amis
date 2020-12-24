@@ -151,7 +151,7 @@ type TableData struct {
 }
 
 type Items struct {
-	ID           int         `json:"id,omitempty"`
+	ID           int         `json:"id"`
 	TypeText     string      `json:"text,omitempty"`
 	TypeImage    string      `json:"image,omitempty"`
 	TypeDate     string      `json:"date,omitempty"`
