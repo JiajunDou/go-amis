@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-var (
+const (
 	VideoControlsRates   = "rates"
 	VideoControlsPlay    = "play"
 	VideoControlsTime    = "time"
@@ -21,50 +21,50 @@ type Video struct {
 	JsonStr []string
 }
 
-func (p Video) ClassName(s string) Video {
+func (p *Video) ClassName(s string) *Video {
 	return p._KeyVal("className", s)
 }
 
-func (p Video) Src(s string) Video {
+func (p *Video) Src(s string) *Video {
 	return p._KeyVal("src", s)
 }
 
-func (p Video) IsLive(s bool) Video {
+func (p *Video) IsLive(s bool) *Video {
 	return p._KeyVal("isLive", s)
 }
 
-func (p Video) Poster(s string) Video {
+func (p *Video) Poster(s string) *Video {
 	return p._KeyVal("poster", s)
 }
 
-func (p Video) SplitPoster(s bool) Video {
+func (p *Video) SplitPoster(s bool) *Video {
 	return p._KeyVal("splitPoster", s)
 }
 
-func (p Video) Muted(s bool) Video {
+func (p *Video) Muted(s bool) *Video {
 	return p._KeyVal("muted", s)
 }
 
-func (p Video) AutoPlay(s bool) Video {
+func (p *Video) AutoPlay(s bool) *Video {
 	return p._KeyVal("autoPlay", s)
 }
 
-func (p Video) Rates(s ...string) Video {
+func (p *Video) Rates(s ...string) *Video {
 	ss := strings.Join(s, ",")
 	p._NotEmpty("rates", ss)
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"rates":[%s]`, ss))
 	return p
 }
-func (p Video) AspectRatio(s ...string) Video {
+func (p *Video) AspectRatio(s ...string) *Video {
 	return p._KeyVal("aspectRatio", s)
 }
 
-func (p Video) Build() string {
+func (p *Video) Build() string {
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"type":"%s"`, "video"))
 	return "{" + strings.Join(p.JsonStr, ",") + "}"
 }
 
-func (p Video) _KeyVal(k string, v interface{}) Video {
+func (p *Video) _KeyVal(k string, v interface{}) *Video {
 	p._NotEmpty(k, v)
 	switch v := v.(type) {
 	case string:
@@ -77,7 +77,7 @@ func (p Video) _KeyVal(k string, v interface{}) Video {
 	return p
 }
 
-func (p Video) _NotEmpty(py, v interface{}) {
+func (p *Video) _NotEmpty(py, v interface{}) {
 	switch v := v.(type) {
 	case string:
 		if strings.TrimSpace(v) == "" {
@@ -86,7 +86,7 @@ func (p Video) _NotEmpty(py, v interface{}) {
 	}
 }
 
-func NewVideo() Video {
-	var c Video
+func NewVideo() *Video {
+	c := new(Video)
 	return c
 }

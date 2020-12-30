@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-var (
+const (
 	LevelInfo    = "info"
 	LevelSuccess = "success"
 	LevelWarning = "warning"
@@ -16,31 +16,31 @@ type Alert struct {
 	JsonStr []string
 }
 
-func (p Alert) ClassName(s string) Alert {
+func (p *Alert) ClassName(s string) *Alert {
 	return p._KeyVal("className", s)
 }
 
-func (p Alert) Level(s string) Alert {
+func (p *Alert) Level(s string) *Alert {
 	return p._KeyVal("level", s)
 }
 
-func (p Alert) Body(s ...string) Alert {
+func (p *Alert) Body(s ...string) *Alert {
 	ss := strings.Join(s, ",")
 	p._NotEmpty("body", ss)
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"body":[%s]`, ss))
 	return p
 }
 
-func (p Alert) ShowCloseButton(s bool) Alert {
+func (p *Alert) ShowCloseButton(s bool) *Alert {
 	return p._KeyVal("showCloseButton", s)
 }
 
-func (p Alert) Build() string {
+func (p *Alert) Build() string {
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"type":"%s"`, "alert"))
 	return "{" + strings.Join(p.JsonStr, ",") + "}"
 }
 
-func (p Alert) _KeyVal(k string, v interface{}) Alert {
+func (p *Alert) _KeyVal(k string, v interface{}) *Alert {
 	p._NotEmpty(k, v)
 	switch v.(type) {
 	case string:
@@ -53,7 +53,7 @@ func (p Alert) _KeyVal(k string, v interface{}) Alert {
 	return p
 }
 
-func (p Alert) _NotEmpty(py, v interface{}) {
+func (p *Alert) _NotEmpty(py, v interface{}) {
 	switch v := v.(type) {
 	case string:
 		if strings.TrimSpace(v) == "" {
@@ -62,7 +62,7 @@ func (p Alert) _NotEmpty(py, v interface{}) {
 	}
 }
 
-func NewAlert() Alert {
-	var c Alert
+func NewAlert() *Alert {
+	c := new(Alert)
 	return c
 }

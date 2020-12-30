@@ -9,35 +9,35 @@ type Service struct {
 	JsonStr []string
 }
 
-func (r Service) ClassName(s string) Service {
+func (r *Service) ClassName(s string) *Service {
 	return r._KeyVal("className", s)
 }
 
-func (r Service) Title(s string) Service {
+func (r *Service) Title(s string) *Service {
 	return r._KeyVal("title", s)
 }
 
-func (r Service) Api(s string) Service {
+func (r *Service) Api(s string) *Service {
 	return r._KeyVal("api", s)
 }
 
-func (p Service) Body(s ...string) Service {
+func (p *Service) Body(s ...string) *Service {
 	ss := strings.Join(s, ",")
 	p._NotEmpty("body", ss)
 	p.JsonStr = append(p.JsonStr, fmt.Sprintf(`"body":[%s]`, ss))
 	return p
 }
 
-func (r Service) Build() string {
+func (r *Service) Build() string {
 	r.JsonStr = append(r.JsonStr, fmt.Sprintf(`"type":"%s"`, "service"))
 	return "{" + strings.Join(r.JsonStr, ",") + "}"
 }
 
-func (r Service) NoTypeBuild() string {
+func (r *Service) NoTypeBuild() string {
 	return "{" + strings.Join(r.JsonStr, ",") + "}"
 }
 
-func (r Service) _KeyVal(k string, v interface{}) Service {
+func (r *Service) _KeyVal(k string, v interface{}) *Service {
 	r._NotEmpty(k, v)
 	switch v := v.(type) {
 	case string:
@@ -50,7 +50,7 @@ func (r Service) _KeyVal(k string, v interface{}) Service {
 	return r
 }
 
-func (r Service) _NotEmpty(py, v interface{}) {
+func (r *Service) _NotEmpty(py, v interface{}) {
 	switch v := v.(type) {
 	case string:
 		if strings.TrimSpace(v) == "" {
@@ -59,7 +59,7 @@ func (r Service) _NotEmpty(py, v interface{}) {
 	}
 }
 
-func NewService() Service {
-	var c Service
+func NewService() *Service {
+	c := new(Service)
 	return c
 }
