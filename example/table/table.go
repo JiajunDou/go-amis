@@ -12,8 +12,8 @@ import (
 )
 
 var (
-	AmisPath = getParentDirectory(getCurrentDirectory()) + "/amis"
-	TmplFile = AmisPath + "/amis.html"
+//AmisPath = getParentDirectory(getCurrentDirectory()) + "/amis"
+//TmplFile = AmisPath + "/amis.html"
 )
 
 func substr(s string, pos, length int) string {
@@ -38,8 +38,8 @@ func getCurrentDirectory() string {
 }
 
 func tmpl(w http.ResponseWriter, r *http.Request) {
-
-	t1, err := template.ParseFiles(TmplFile)
+	//TODO change to Tmplfile
+	t1, err := template.ParseFiles("/Users/jiajundou/go-amis/example/amis/amis.html")
 	if err != nil {
 		panic(err)
 	}
@@ -245,7 +245,8 @@ func BasicTable(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	fs := http.FileServer(http.Dir(AmisPath))
+	//fs := http.FileServer(http.Dir(AmisPath))
+	fs := http.FileServer(http.Dir("/Users/jiajundou/go-amis/example/amis"))
 	http.Handle("/amis/", http.StripPrefix("/amis/", fs))
 	http.HandleFunc("/", tmpl)
 	http.HandleFunc("/basicTable", BasicTable)
